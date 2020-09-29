@@ -5,7 +5,7 @@
     </button>
   
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
-      <ul class="navbar-nav mr-auto">
+      <ul class="navbar-nav mr-auto" *ngIf="loggedIn">
 
         <li class="nav-item">
           <a class="nav-link" href="#">Plan</a>
@@ -16,22 +16,22 @@
         <li class="nav-item">
           <a class="nav-link" href="#">Items</a>
         </li>
-        <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            Dropdown
-          </a>
-          <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-            <a class="dropdown-item" href="#">Action</a>
-            <a class="dropdown-item" href="#">Another action</a>
-            <div class="dropdown-divider"></div>
-            <a class="dropdown-item" href="#">Something else here</a>
-          </div>
-        </li>
         <li class="nav-item">
-          <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
+          <a class="nav-link" (click) ="logout()">Logout</a>
         </li>
+      
       </ul>
-      <form #loginForm="ngForm" class="form-inline my-2 my-lg-0"(ngSubmit)="login()" autocomplete="off">
+
+      <div class="dropdown" *ngIf="loggedIn" dropdown>
+        <a class="dropdown-toggle" dropdownToggle>Welcome user</a> 
+         <div class="dropdown-menu mt-3" *dropdownMenu>
+           <a class="dropdown-item">Edit Profile</a>
+           <div class="dropdown-divider"></div>
+           <a class="dropdown-item"(click) ="logout()">Logout</a>
+
+         </div>
+      </div>
+      <form *ngIf="!loggedIn" #loginForm="ngForm" class="form-inline my-2 my-lg-0"(ngSubmit)="login()" autocomplete="off">
         <input 
           name="username"
           [(ngModel)]="model.username"
