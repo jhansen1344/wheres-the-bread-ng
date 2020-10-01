@@ -12,6 +12,7 @@ import { RegisterComponent } from './register/register.component';
 import { ItemsComponent } from './items/items.component';
 import { SubactivitiesComponent } from './subactivities/subactivities.component';
 import { routes } from './app-routing.module';
+import { PlanComponent } from './plan/plan.component';
 
 @NgModule({
   declarations: [
@@ -20,7 +21,8 @@ import { routes } from './app-routing.module';
     HomeComponent,
     RegisterComponent,
     ItemsComponent,
-    SubactivitiesComponent
+    SubactivitiesComponent,
+    PlanComponent
   ],
   imports: [
     BrowserModule,
