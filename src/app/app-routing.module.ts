@@ -8,9 +8,18 @@ import { AuthGuard } from './_guards/auth.guard';
 
 export const routes: Routes = [
   {path: '', component: HomeComponent},
-  {path: 'items', component: ItemsComponent, canActivate: [AuthGuard]},
-  {path: 'subactivities', component: SubactivitiesComponent},
-  {path: 'plan', component: PlanComponent},
+  {
+    path: '',
+    runGuardsAndResolvers: 'always',
+    canActivate: [AuthGuard],
+    children: [
+      {path: 'items', component: ItemsComponent},
+      {path: 'subactivities', component: SubactivitiesComponent},
+      {path: 'plan', component: PlanComponent},
+
+    ]
+  },
+  
   {path: '**', component: HomeComponent, pathMatch: 'full'},
 ];
 
