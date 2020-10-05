@@ -1,7 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
 
 import { AppComponent } from './app.component';
@@ -14,6 +14,7 @@ import { SubactivitiesComponent } from './subactivities/subactivities.component'
 import { routes } from './app-routing.module';
 import { PlanComponent } from './plan/plan.component';
 import { SharedModule } from './_modules/shared.module';
+import { ErrorInterceptor } from './_interceptors/error.interceptor';
 
 
 @NgModule({
@@ -34,7 +35,9 @@ import { SharedModule } from './_modules/shared.module';
     RouterModule.forRoot(routes),
     SharedModule
   ],
-  providers: [],
+  providers: [
+    {provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true}
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
