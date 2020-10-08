@@ -1,0 +1,13 @@
+<ng-container *ngIf="item">
+    <div class="col-2">
+        {{item.name}}
+    </div>
+    <div class="col-2" *ngIf=item.location>
+        {{item.location}}
+    </div>
+    <div class="col-2" *ngIf="item.location==null">
+       <p>N/A</p>
+    </div>
+
+</ng-container>
+
