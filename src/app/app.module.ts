@@ -20,6 +20,7 @@ import { ServerErrorComponent } from './errors/server-error/server-error.compone
 import { JwtInterceptor } from './_interceptors/jwt.interceptor';
 import { ItemListComponent } from './items/item-list/item-list.component';
 import { ItemDetailComponent } from './items/item-detail/item-detail.component';
+import { ItemEditComponent } from './items/item-edit/item-edit.component';
 
 
 @NgModule({
@@ -34,7 +35,8 @@ import { ItemDetailComponent } from './items/item-detail/item-detail.component';
     NotFoundComponent,
     ServerErrorComponent,
     ItemListComponent,
-    ItemDetailComponent
+    ItemDetailComponent,
+    ItemEditComponent
   ],
   imports: [
     BrowserModule,

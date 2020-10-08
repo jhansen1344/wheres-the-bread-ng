@@ -9,6 +9,7 @@ import { NotFoundComponent } from './errors/not-found/not-found.component';
 import { ServerErrorComponent } from './errors/server-error/server-error.component';
 import { ItemListComponent } from './items/item-list/item-list.component';
 import { ItemDetailComponent } from './items/item-detail/item-detail.component';
+import { ItemEditComponent } from './items/item-edit/item-edit.component';
 
 export const routes: Routes = [
   {path: '', component: HomeComponent},
@@ -19,9 +20,9 @@ export const routes: Routes = [
     children: [
       {path: 'items', component: ItemListComponent},
       {path: 'items/:id', component: ItemDetailComponent},
+      {path: 'item/edit/:id', component: ItemEditComponent},
       {path: 'subactivities', component: SubactivitiesComponent},
       {path: 'plan', component: PlanComponent},
-
     ]
   },
   {path: 'not-found', component: NotFoundComponent},

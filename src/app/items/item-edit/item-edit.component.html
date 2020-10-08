@@ -1,0 +1,24 @@
+
+<ng-container *ngIf="item">
+    <h1>Edit Item: {{item.name}} </h1>
+    
+
+
+<form #editForm="ngForm" id="editForm" (ngSubmit)="updateItem()">
+    <div class="col-8">
+        <div class="alert alert-info" *ngIf="editForm.dirty">
+            <strong>Information: </strong> You have unsaved changes to this item.
+        </div>
+    </div>
+    <div class="form-inline">
+        <label for="name">Item Name:</label>
+        <input [(ngModel)]="item.name" type="text" name="name" class="form-control mx-2">
+        <label for="location">Item Location:</label>
+        <input [(ngModel)]="item.location" type="text" name="location" class="form-control mx-2">
+    </div>
+</form>
+<div class="col-2">
+    <button [disabled]="!editForm.dirty" form="editForm" type="submit" class="btn btn-success btn-block">Save Changes</button>  
+ </div>
+</ng-container>
+
