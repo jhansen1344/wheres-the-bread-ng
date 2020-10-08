@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, HostListener } from '@angular/core';
 import { Item } from 'src/app/_models/item';
 import { ItemsService } from 'src/app/_services/items.service';
 import { ActivatedRoute } from '@angular/router';
@@ -13,6 +13,11 @@ import { NgForm } from '@angular/forms';
 export class ItemEditComponent implements OnInit {
   @ViewChild('editForm')editForm: NgForm;
   item: Item;
+  @HostListener('window:beforeunload', ['$event']) unloadNotification($event: any){
+    if(this.editForm.dirty){
+      $event.returnValue =  true;
+    }
+  }
   constructor(private itemService: ItemsService, private route: ActivatedRoute, private toastr: ToastrService) { }
 
   ngOnInit(): void {
@@ -26,9 +31,10 @@ export class ItemEditComponent implements OnInit {
   }
 
   updateItem(){
-    console.log(this.item);
+   this.itemService.updateItem(this.item).subscribe(() => {
     this.toastr.success('Item Updated Successfully');
     this.editForm.reset(this.item);
+   })
   }
 
 }

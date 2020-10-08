@@ -19,4 +19,8 @@ export class ItemsService {
    getItem(itemId: string){
      return this.http.get<Item>(this.baseUrl + 'item/' + itemId);
    }
+
+   updateItem(item: Item){
+    return this.http.put(this.baseUrl + 'item/' + item.id, item);
+   }
 }
