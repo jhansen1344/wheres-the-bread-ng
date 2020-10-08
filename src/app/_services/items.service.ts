@@ -15,4 +15,8 @@ export class ItemsService {
    getItems(){
      return this.http.get<Item[]>(this.baseUrl + 'item');
    }
+
+   getItem(itemId: number){
+     return this.http.get<Item>(this.baseUrl + 'item' + itemId);
+   }
 }

@@ -18,6 +18,7 @@ import { ErrorInterceptor } from './_interceptors/error.interceptor';
 import { NotFoundComponent } from './errors/not-found/not-found.component';
 import { ServerErrorComponent } from './errors/server-error/server-error.component';
 import { JwtInterceptor } from './_interceptors/jwt.interceptor';
+import { ItemListComponent } from './items/item-list/item-list.component';
 
 
 @NgModule({
@@ -30,7 +31,8 @@ import { JwtInterceptor } from './_interceptors/jwt.interceptor';
     SubactivitiesComponent,
     PlanComponent,
     NotFoundComponent,
-    ServerErrorComponent
+    ServerErrorComponent,
+    ItemListComponent
   ],
   imports: [
     BrowserModule,
