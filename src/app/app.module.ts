@@ -21,6 +21,7 @@ import { JwtInterceptor } from './_interceptors/jwt.interceptor';
 import { ItemListComponent } from './items/item-list/item-list.component';
 import { ItemDetailComponent } from './items/item-detail/item-detail.component';
 import { ItemEditComponent } from './items/item-edit/item-edit.component';
+import { NgxSpinnerModule } from 'ngx-spinner';
 
 
 @NgModule({
@@ -44,7 +45,8 @@ import { ItemEditComponent } from './items/item-edit/item-edit.component';
     HttpClientModule,
     FormsModule,
     RouterModule.forRoot(routes),
-    SharedModule
+    SharedModule,
+    NgxSpinnerModule
   ],
   providers: [
     {provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true},
