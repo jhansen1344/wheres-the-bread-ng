@@ -1,0 +1,26 @@
+<ng-container *ngIf="sub">
+    <div class="col-2">
+        Activity Name: {{sub.name}}
+    </div>
+    <div class="row">
+        <div class="col-2">
+            <h1>Name</h1>
+        </div>
+        <div class="col-2">
+            <h1>Location</h1>
+        </div>
+    </div>
+    <div  class="row" *ngFor="let item of sub.items">
+    
+        <div class="col-2">
+            {{item.name}}
+        </div>
+        <div class="col-2" *ngIf=item.location>
+            {{item.location}}
+        </div>
+        <div class="col-2" *ngIf="item.location==null">
+           <p>N/A</p>
+        </div>
+    </div>
+
+</ng-container>

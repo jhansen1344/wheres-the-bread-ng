@@ -15,7 +15,7 @@ export class SubactivitiesComponent implements OnInit {
   constructor(private subService: SubService) { }
 
   ngOnInit(): void {
-    this.subActivities$ = this.subService.getSubActivities();
+    this.subActivities$ = this.subService.getSubs();
   }
 
 }

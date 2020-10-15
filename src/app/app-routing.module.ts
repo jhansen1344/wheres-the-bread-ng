@@ -11,6 +11,8 @@ import { ItemListComponent } from './items/item-list/item-list.component';
 import { ItemDetailComponent } from './items/item-detail/item-detail.component';
 import { ItemEditComponent } from './items/item-edit/item-edit.component';
 import { PreventUnsavedChangesGuard } from './_guards/prevent-unsaved-changes.guard';
+import { SubDetailComponent } from './subactivities/subactivity-detail/sub-detail/sub-detail.component';
+import { SubEditComponent } from './subactivities/subactivity-edit/sub-edit/sub-edit.component';
 
 export const routes: Routes = [
   {path: '', component: HomeComponent},
@@ -23,6 +25,9 @@ export const routes: Routes = [
       {path: 'items/:id', component: ItemDetailComponent},
       {path: 'item/edit/:id', component: ItemEditComponent, canDeactivate:[PreventUnsavedChangesGuard]},
       {path: 'subactivities', component: SubactivitiesComponent},
+      {path: 'subactivities/:id', component: SubDetailComponent},
+      {path: 'subactivity/edit/:id', component: SubEditComponent, canDeactivate:[PreventUnsavedChangesGuard]},
+
       {path: 'plan', component: PlanComponent},
     ]
   },

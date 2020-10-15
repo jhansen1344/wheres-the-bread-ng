@@ -1,1 +1,27 @@
-<p>subactivities works!</p>
+<div class="row">
+    <div class="col-2">
+        <h1>Name</h1>
+    </div>
+    <div class="col-2">
+        <h1>Number of Items</h1>
+    </div>
+</div>
+
+<div  class="row" *ngFor="let sub of subActivities$ | async">
+    
+    <div class="col-2">
+        {{sub.name}}
+    </div>
+    <div class="col-2">
+        {{sub.itemCount}}
+    </div>
+
+    <div class="col-2">
+        <ul class="list-inline member-icons animate text-center">
+            <li class="list-inline-item"><button routerLink='/subactivities/{{sub.id}}' class="btn btn-primary"><i class="fa fa-binoculars"></i></button></li>
+            <li class="list-inline-item"><button routerLink='/subactivity/edit/{{sub.id}}' class="btn btn-primary"><i class="fa fa-pencil"></i></button></li>
+            <li class="list-inline-item"><button class="btn btn-primary"><i class="fa fa-trash"></i></button></li>
+
+        </ul>
+    </div>
+</div>

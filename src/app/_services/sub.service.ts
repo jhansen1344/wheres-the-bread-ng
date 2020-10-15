@@ -12,10 +12,11 @@ import { SubActivityDetail } from '../_models/subActivityDetail';
 export class SubService {
   baseUrl = environment.apiUrl;
   subs: SubActivityList[] = [];
+  sub: SubActivityDetail;
   constructor(private http: HttpClient) {
    }
 
-   getItems(){
+   getSubs(){
      if (this.subs.length > 0){
         return of(this.subs);
      }
@@ -27,15 +28,11 @@ export class SubService {
      );
    }
 
-   getItem(subId: string){
-     const sub = this.subs.find(x => x.id.toString() === subId )
-     if (sub !== undefined){
-       return of(sub);
-     }
+   getSub(subId: string){
      return this.http.get<SubActivityDetail>(this.baseUrl + 'subactivity/' + subId);
    }
 
-   updateItem(sub: SubActivityDetail){
+   updateSub(sub: SubActivityDetail){
     return this.http.put(this.baseUrl + 'subactivity/' + sub.id, sub).pipe(
       map(() => {
         const index = sub.id;

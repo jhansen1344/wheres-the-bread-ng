@@ -23,6 +23,8 @@ import { ItemDetailComponent } from './items/item-detail/item-detail.component';
 import { ItemEditComponent } from './items/item-edit/item-edit.component';
 import { NgxSpinnerModule } from 'ngx-spinner';
 import { TextInputComponent } from './_forms/text-input/text-input.component';
+import { SubDetailComponent } from './subactivities/subactivity-detail/sub-detail/sub-detail.component';
+import { SubEditComponent } from './subactivities/subactivity-edit/sub-edit/sub-edit.component';
 
 
 @NgModule({
@@ -39,7 +41,9 @@ import { TextInputComponent } from './_forms/text-input/text-input.component';
     ItemListComponent,
     ItemDetailComponent,
     ItemEditComponent,
-    TextInputComponent
+    TextInputComponent,
+    SubDetailComponent,
+    SubEditComponent
   ],
   imports: [
     BrowserModule,
