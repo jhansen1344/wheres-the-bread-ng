@@ -16,13 +16,11 @@ export class ItemsService {
 
    getItems(){
      if (this.items.length > 0){
-       console.log('didnt call api');
         return of(this.items);
      }
      return this.http.get<Item[]>(this.baseUrl + 'item').pipe(
        map(items => {
          this.items = items;
-         console.log('Called api');
          return items;
        })
      );
