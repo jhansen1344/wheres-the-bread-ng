@@ -2,6 +2,7 @@ import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { AccountService } from '../_services/account.service';
 import { ToastrService } from 'ngx-toastr';
 import { FormGroup, FormControl, Validators, AbstractControl, ValidatorFn, FormBuilder } from '@angular/forms';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-register',
@@ -10,9 +11,10 @@ import { FormGroup, FormControl, Validators, AbstractControl, ValidatorFn, FormB
 })
 export class RegisterComponent implements OnInit {
   @Output() cancelRegister = new EventEmitter();
-  model: any = {};
   registerForm: FormGroup;
-  constructor(private accountService: AccountService, private toastr: ToastrService, private fb: FormBuilder) { }
+  validationErrors: string[] = [];
+
+  constructor(private accountService: AccountService, private toastr: ToastrService, private fb: FormBuilder, private router: Router) { }
 
   ngOnInit(): void {
     this.initializeForm();
@@ -33,14 +35,13 @@ export class RegisterComponent implements OnInit {
   }
 
   register(){
-    console.log(this.registerForm.value);
-    // this.accountService.register(this.model).subscribe(response =>{
-    //   console.log(response);
-    //   this.cancel();
-    // }, error =>{
-    //   console.log(error);
-    //   this.toastr.error(error.error);
-    // });
+
+    this.accountService.register(this.registerForm.value).subscribe(response =>{
+
+      this.router.navigateByUrl('/plan');
+    }, error =>{
+      this.validationErrors = error;
+    });
   }
 
   cancel(){
