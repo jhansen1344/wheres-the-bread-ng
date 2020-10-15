@@ -22,6 +22,7 @@ import { ItemListComponent } from './items/item-list/item-list.component';
 import { ItemDetailComponent } from './items/item-detail/item-detail.component';
 import { ItemEditComponent } from './items/item-edit/item-edit.component';
 import { NgxSpinnerModule } from 'ngx-spinner';
+import { TextInputComponent } from './_forms/text-input/text-input.component';
 
 
 @NgModule({
@@ -37,7 +38,8 @@ import { NgxSpinnerModule } from 'ngx-spinner';
     ServerErrorComponent,
     ItemListComponent,
     ItemDetailComponent,
-    ItemEditComponent
+    ItemEditComponent,
+    TextInputComponent
   ],
   imports: [
     BrowserModule,
