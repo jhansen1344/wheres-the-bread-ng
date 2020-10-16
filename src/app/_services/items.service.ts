@@ -4,6 +4,7 @@ import { HttpClient } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
 import { Item } from '../_models/item';
 import { map } from 'rxjs/operators';
+import { ItemCreate } from '../_models/item-create';
 
 @Injectable({
   providedIn: 'root'
@@ -41,5 +42,13 @@ export class ItemsService {
         this.items[index] = item;
       })
     )
+   }
+
+   createItem(item: ItemCreate){
+     return this.http.post(this.baseUrl + 'item', item);
+   }
+
+   deleteItem(id: number){
+     return this.http.post(this.baseUrl + 'item/' + id, {});
    }
 }
