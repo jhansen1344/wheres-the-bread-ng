@@ -40,4 +40,8 @@ export class SubService {
       })
     )
    }
+
+   deleteSub(id: number){
+    return this.http.post(this.baseUrl + 'subactivity/' + id, {});
+  }
 }

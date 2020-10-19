@@ -20,7 +20,7 @@
         <ul class="list-inline member-icons animate text-center">
             <li class="list-inline-item"><button routerLink='/subactivities/{{sub.id}}' class="btn btn-primary"><i class="fa fa-binoculars"></i></button></li>
             <li class="list-inline-item"><button routerLink='/subactivity/edit/{{sub.id}}' class="btn btn-primary"><i class="fa fa-pencil"></i></button></li>
-            <li class="list-inline-item"><button class="btn btn-primary"><i class="fa fa-trash"></i></button></li>
+            <li class="list-inline-item"><button class="btn btn-primary" (click)="deleteSub(sub.id)"><i class="fa fa-trash"></i></button></li>
 
         </ul>
     </div>

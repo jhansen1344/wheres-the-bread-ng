@@ -18,4 +18,10 @@ export class SubactivitiesComponent implements OnInit {
     this.subActivities$ = this.subService.getSubs();
   }
 
+  deleteSub(id: number){
+    this.subService.deleteSub(id).subscribe(() =>{
+      this.subActivities$ = this.subService.getSubs();
+    })
+  }
+
 }
