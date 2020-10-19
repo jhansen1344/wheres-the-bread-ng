@@ -26,6 +26,7 @@ import { TextInputComponent } from './_forms/text-input/text-input.component';
 import { SubDetailComponent } from './subactivities/subactivity-detail/sub-detail/sub-detail.component';
 import { SubEditComponent } from './subactivities/subactivity-edit/sub-edit/sub-edit.component';
 import { ItemCreateComponent } from './items/item-create/item-create.component';
+import { SubCreateComponent } from './subactivities/sub-create/sub-create.component';
 
 
 @NgModule({
@@ -45,7 +46,8 @@ import { ItemCreateComponent } from './items/item-create/item-create.component';
     TextInputComponent,
     SubDetailComponent,
     SubEditComponent,
-    ItemCreateComponent
+    ItemCreateComponent,
+    SubCreateComponent
   ],
   imports: [
     BrowserModule,
