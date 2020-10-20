@@ -1,1 +1,30 @@
-<p>sub-edit works!</p>
+<ng-container *ngIf="sub">
+    <h1>Edit Item: {{sub.name}} </h1>
+    
+
+
+<form #editForm="ngForm" id="editForm" (ngSubmit)="updateItem()">
+    <div class="col-8">
+        <div class="alert alert-info" *ngIf="editForm.dirty">
+            <strong>Information: </strong> You have unsaved changes to this item.
+        </div>
+    </div>
+    <div class="form-inline">
+        <label for="name">Activity Name:</label>
+        <input [(ngModel)]="sub.name" type="text" name="name" class="form-control mx-2">
+    </div>
+    <div class="form-check" *ngFor="let item of items">
+        <input type="checkbox" 
+            class="form-check-input"
+            [checked]="item.checked"
+            value = item.name
+            (change)="item.checked = !item.checked"
+        
+        >
+        <label>{{item.name}}</label>
+    </div>
+</form>
+<div class="col-2">
+    <button [disabled]="!editForm.dirty" form="editForm" type="submit" class="btn btn-success btn-block">Save Changes</button>  
+ </div>
+</ng-container>
