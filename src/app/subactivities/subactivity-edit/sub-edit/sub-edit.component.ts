@@ -2,8 +2,10 @@ import { Component, OnInit, ViewChild, HostListener } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { SubActivityDetail } from 'src/app/_models/subActivityDetail';
 import { SubService } from 'src/app/_services/sub.service';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, RouterLink } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
+import { ItemsService } from 'src/app/_services/items.service';
+import { Item } from 'src/app/_models/item';
 
 @Component({
   selector: 'app-sub-edit',
@@ -20,7 +22,8 @@ export class SubEditComponent implements OnInit {
       $event.returnValue =  true;
     }
   }
-  constructor(private subService: SubService, private route: ActivatedRoute, private toastr: ToastrService) { }
+  constructor(private subService: SubService, private itemService: ItemsService, 
+              private route: ActivatedRoute, private toastr: ToastrService) { }
 
   ngOnInit(): void {
     this.loadSub();
@@ -30,6 +33,10 @@ export class SubEditComponent implements OnInit {
     this.subService.getSub(this.route.snapshot.paramMap.get('id')).subscribe(sub => {
       this.sub = sub;
     });
+
+    this.itemService.getItems().subscribe(items => {
+      this.items = items;
+    })
   }
 
   updateItem(){
@@ -37,6 +44,29 @@ export class SubEditComponent implements OnInit {
     this.toastr.success('Activity Updated Successfully');
     this.editForm.reset(this.sub);
    })
+  }
+
+  private getSubItemsArray(){
+    const allItems = [];
+    this.items.forEach(item => {
+      let isMatch = false;
+      for(const subItem of this.sub.items){
+        if(item.name ===subItem.name){
+          isMatch = true;
+          item.checked = true;
+          allItems.push(item);
+          break;
+        }
+      }
+      if(!isMatch){
+        item.checked = false;
+        allItems.push(item); 
+      }
+    })
+
+    return allItems;
+
+
   }
 
 }
