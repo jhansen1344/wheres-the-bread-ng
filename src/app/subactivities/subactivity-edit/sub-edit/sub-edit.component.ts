@@ -16,7 +16,9 @@ export class SubEditComponent implements OnInit {
 
   @ViewChild('editForm')editForm: NgForm;
   sub: SubActivityDetail;
-  items: any[];
+  items: any[] = [];
+  availableItems: any[] = [];
+
   @HostListener('window:beforeunload', ['$event']) unloadNotification($event: any){
     if(this.editForm.dirty){
       $event.returnValue =  true;
@@ -36,7 +38,23 @@ export class SubEditComponent implements OnInit {
 
     this.itemService.getItems().subscribe(items => {
       this.items = items;
-    })
+      this.items.forEach(item => {
+        let isMatch = false;
+        for(const subItem of this.sub.items){
+          if (item.name === subItem.name){
+            isMatch = true;
+            item.checked = true;
+            this.availableItems.push(item);
+            break;
+          }
+        }
+        if(!isMatch){
+          item.checked = false;
+          this.availableItems.push(item); 
+        }
+      })
+    });
+    
   }
 
   updateItem(){
@@ -46,27 +64,27 @@ export class SubEditComponent implements OnInit {
    })
   }
 
-  private getSubItemsArray(){
-    const allItems = [];
-    this.items.forEach(item => {
-      let isMatch = false;
-      for(const subItem of this.sub.items){
-        if(item.name ===subItem.name){
-          isMatch = true;
-          item.checked = true;
-          allItems.push(item);
-          break;
-        }
-      }
-      if(!isMatch){
-        item.checked = false;
-        allItems.push(item); 
-      }
-    })
+  // private getSubItemsArray(){
+  //   const allItems = [];
+  //   this.items.forEach(item => {
+  //     let isMatch = false;
+  //     for(const subItem of this.sub.items){
+  //       if (item.name === subItem.name){
+  //         isMatch = true;
+  //         item.checked = true;
+  //         allItems.push(item);
+  //         break;
+  //       }
+  //     }
+  //     if(!isMatch){
+  //       item.checked = false;
+  //       availableItems.push(item); 
+  //     }
+  //   })
 
-    return allItems;
+  //   return allItems;
 
 
-  }
+  // }
 
 }

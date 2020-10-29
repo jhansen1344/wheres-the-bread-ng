@@ -13,7 +13,7 @@
         <label for="name">Activity Name:</label>
         <input [(ngModel)]="sub.name" type="text" name="name" class="form-control mx-2">
     </div>
-    <div class="form-check" *ngFor="let item of items">
+    <div class="form-check" *ngFor="let item of availableItems">
         <input type="checkbox" 
             class="form-check-input"
             [checked]="item.checked"
