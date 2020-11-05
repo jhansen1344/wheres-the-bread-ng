@@ -6,6 +6,9 @@ import { ActivatedRoute, RouterLink } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { ItemsService } from 'src/app/_services/items.service';
 import { Item } from 'src/app/_models/item';
+import { analyzeAndValidateNgModules } from '@angular/compiler';
+import { ItemChecked } from 'src/app/_models/checked-item';
+import { map } from 'rxjs/operators';
 
 @Component({
   selector: 'app-sub-edit',
@@ -16,7 +19,7 @@ export class SubEditComponent implements OnInit {
 
   @ViewChild('editForm')editForm: NgForm;
   sub: SubActivityDetail;
-  items: any[] = [];
+  items: any[];
   availableItems: any[] = [];
 
   @HostListener('window:beforeunload', ['$event']) unloadNotification($event: any){
@@ -34,27 +37,39 @@ export class SubEditComponent implements OnInit {
   loadSub(){
     this.subService.getSub(this.route.snapshot.paramMap.get('id')).subscribe(sub => {
       this.sub = sub;
+      this.itemService
+        .getItems()
+        .pipe(
+          map((responseData) => {
+            const allItems = [];
+            responseData.forEach((item) => {
+              let isMatch = false;
+              let checkItem: ItemChecked = {};
+              for (const subItem of this.sub.items) {
+                if (item.name === subItem.name) {
+                  isMatch = true;
+                  checkItem.name = item.name;
+                  checkItem.location = item.location;
+                  checkItem.checked = true;
+                  allItems.push(checkItem);
+                  break;
+                }
+              }
+              if (!isMatch) {
+                checkItem.name = item.name;
+                checkItem.location = item.location;
+                checkItem.checked = false;
+                allItems.push(checkItem);
+              }
+            });
+            return allItems;
+          })
+        )
+        .subscribe((items) => {
+          this.availableItems = items;
+        });
     });
 
-    this.itemService.getItems().subscribe(items => {
-      this.items = items;
-      this.items.forEach(item => {
-        let isMatch = false;
-        for(const subItem of this.sub.items){
-          if (item.name === subItem.name){
-            isMatch = true;
-            item.checked = true;
-            this.availableItems.push(item);
-            break;
-          }
-        }
-        if(!isMatch){
-          item.checked = false;
-          this.availableItems.push(item); 
-        }
-      })
-    });
-    
   }
 
   updateItem(){
@@ -64,27 +79,6 @@ export class SubEditComponent implements OnInit {
    })
   }
 
-  // private getSubItemsArray(){
-  //   const allItems = [];
-  //   this.items.forEach(item => {
-  //     let isMatch = false;
-  //     for(const subItem of this.sub.items){
-  //       if (item.name === subItem.name){
-  //         isMatch = true;
-  //         item.checked = true;
-  //         allItems.push(item);
-  //         break;
-  //       }
-  //     }
-  //     if(!isMatch){
-  //       item.checked = false;
-  //       availableItems.push(item); 
-  //     }
-  //   })
-
-  //   return allItems;
-
-
-  // }
+  
 
 }
