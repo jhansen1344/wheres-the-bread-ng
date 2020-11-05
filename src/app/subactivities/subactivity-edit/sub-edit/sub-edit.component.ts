@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild, HostListener } from '@angular/core';
-import { NgForm } from '@angular/forms';
+import { NgForm, FormGroup, FormBuilder, FormArray, FormControl } from '@angular/forms';
 import { SubActivityDetail } from 'src/app/_models/subActivityDetail';
 import { SubService } from 'src/app/_services/sub.service';
 import { ActivatedRoute, RouterLink } from '@angular/router';
@@ -21,6 +21,7 @@ export class SubEditComponent implements OnInit {
   sub: SubActivityDetail;
   items: any[];
   availableItems: any[] = [];
+  form: FormGroup;
 
   @HostListener('window:beforeunload', ['$event']) unloadNotification($event: any){
     if(this.editForm.dirty){
@@ -28,10 +29,24 @@ export class SubEditComponent implements OnInit {
     }
   }
   constructor(private subService: SubService, private itemService: ItemsService, 
-              private route: ActivatedRoute, private toastr: ToastrService) { }
+              private route: ActivatedRoute, private toastr: ToastrService, private formBuilder: FormBuilder) {
+                
+               }
 
   ngOnInit(): void {
     this.loadSub();
+    this.form = this.formBuilder.group({
+      itemsToUpdate: new FormArray([])
+    });
+    
+  }
+
+  get itemsFormArray(){
+    return this.form.controls.itemsToUpdate as FormArray;
+  }
+
+  private addCheckboxes(){
+    this.availableItems.forEach(item => this.itemsFormArray.push(new FormControl(item.checked)));
   }
 
   loadSub(){
@@ -48,6 +63,7 @@ export class SubEditComponent implements OnInit {
               for (const subItem of this.sub.items) {
                 if (item.name === subItem.name) {
                   isMatch = true;
+                  checkItem.id = item.id;
                   checkItem.name = item.name;
                   checkItem.location = item.location;
                   checkItem.checked = true;
@@ -56,6 +72,7 @@ export class SubEditComponent implements OnInit {
                 }
               }
               if (!isMatch) {
+                checkItem.id = item.id;
                 checkItem.name = item.name;
                 checkItem.location = item.location;
                 checkItem.checked = false;
@@ -67,13 +84,22 @@ export class SubEditComponent implements OnInit {
         )
         .subscribe((items) => {
           this.availableItems = items;
+          this.addCheckboxes();
         });
     });
 
   }
 
   updateItem(){
-   this.subService.updateSub(this.sub).subscribe(() => {
+    const selectedItemIds = this.form.value.itemsToUpdate
+    .map((checked, i) => checked ? this.availableItems[i].id : null)
+    .filter(v=> v !==null);
+
+    const subToUpdate = {id: this.sub.id,
+    name: this.sub.name,
+    itemIds: selectedItemIds
+  };
+   this.subService.updateSub(subToUpdate).subscribe(() => {
     this.toastr.success('Activity Updated Successfully');
     this.editForm.reset(this.sub);
    })

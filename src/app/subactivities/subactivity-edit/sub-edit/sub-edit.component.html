@@ -24,8 +24,17 @@
         >
         <label>{{item.name}}</label>
     </div>
+    <div class="col-2">
+        <button [disabled]="!editForm.dirty" form="editForm" type="submit" class="btn btn-success btn-block">Save Changes</button>  
+     </div>
 </form>
-<div class="col-2">
-    <button [disabled]="!editForm.dirty" form="editForm" type="submit" class="btn btn-success btn-block">Save Changes</button>  
- </div>
+
+<form [formGroup] = "form" (ngSubmit)="updateItem()">
+<label formArrayName="itemsToUpdate" *ngFor="let item of itemsFormArray.controls; let i = index">
+<input type ="checkbox" [formControlName]="i">
+{{availableItems[i].name}}
+</label>
+<button>submit</button>
+</form>
+
 </ng-container>

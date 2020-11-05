@@ -32,7 +32,7 @@ export class SubService {
      return this.http.get<SubActivityDetail>(this.baseUrl + 'subactivity/' + subId);
    }
 
-   updateSub(sub: SubActivityDetail){
+   updateSub(sub){
     return this.http.put(this.baseUrl + 'subactivity/' + sub.id, sub).pipe(
       map(() => {
         const index = sub.id;
