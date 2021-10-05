@@ -60,7 +60,7 @@ export class SubEditComponent implements OnInit {
             responseData.forEach((item) => {
               let isMatch = false;
               let checkItem: ItemChecked = {};
-              for (const subItem of this.sub.items) {
+              this.sub.items.forEach((subItem)=> {
                 if (item.name === subItem.name) {
                   isMatch = true;
                   checkItem.id = item.id;
@@ -68,16 +68,15 @@ export class SubEditComponent implements OnInit {
                   checkItem.location = item.location;
                   checkItem.checked = true;
                   allItems.push(checkItem);
-                  break;
                 }
-              }
-              if (!isMatch) {
-                checkItem.id = item.id;
-                checkItem.name = item.name;
-                checkItem.location = item.location;
-                checkItem.checked = false;
-                allItems.push(checkItem);
-              }
+                if (!isMatch) {
+                  checkItem.id = item.id;
+                  checkItem.name = item.name;
+                  checkItem.location = item.location;
+                  checkItem.checked = false;
+                  allItems.push(checkItem);
+                }
+              })
             });
             return allItems;
           })
@@ -101,7 +100,7 @@ export class SubEditComponent implements OnInit {
   };
    this.subService.updateSub(subToUpdate).subscribe(() => {
     this.toastr.success('Activity Updated Successfully');
-    this.editForm.reset(this.sub);
+    this.form.reset(this.sub);
    })
   }
 

@@ -5,6 +5,8 @@ import { HttpClient } from '@angular/common/http';
 import { of } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { SubActivityDetail } from '../_models/subActivityDetail';
+import { SubActivityCreate } from '../_models/subActivityCreate';
+
 
 @Injectable({
   providedIn: 'root'
@@ -15,6 +17,10 @@ export class SubService {
   sub: SubActivityDetail;
   constructor(private http: HttpClient) {
    }
+
+   createItem(subActivity: SubActivityCreate){
+    return this.http.post(this.baseUrl + 'subactivity', subActivity);
+  }
 
    getSubs(){
      if (this.subs.length > 0){
