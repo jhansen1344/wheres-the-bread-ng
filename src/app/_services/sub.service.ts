@@ -18,7 +18,7 @@ export class SubService {
   constructor(private http: HttpClient) {
    }
 
-   createItem(subActivity: SubActivityCreate){
+   createSub(subActivity: SubActivityCreate){
     return this.http.post(this.baseUrl + 'subactivity', subActivity);
   }
 

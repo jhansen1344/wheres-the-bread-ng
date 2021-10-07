@@ -1,1 +1,47 @@
-<p>sub-create works!</p>
+<form [formGroup]='createForm' (ngSubmit)="createForm.valid && create()" autocomplete="off">
+    <h2 class="text-center text-primary"> Create Item</h2>
+    <hr>
+    <app-text-input [formControl]='createForm.controls["name"]' [label]='"SubActivity Name"'></app-text-input>
+    
+    <div  class="row" *ngFor="let item of items$ | async">
+        <app-text-input [label]='"Item For SubActivity"'></app-text-input>
+        {{item.name}}
+        
+    </div>
+  
+    <div class="row"*ngIf="validationErrors.length>0">
+        <ul class="text-danger">
+            <li *ngFor="let error of validationErrors">
+                {{error}}
+            </li>
+        </ul>
+    </div>
+    <div class="form-group text-center">
+        <button [disabled]='!createForm.valid' class="btn btn-success mr-2" type="submit">Create</button>
+        <button class="btn btn-default mr-2"(click)="cancel()">Cancel</button>
+
+    </div>
+</form>
+
+
+<div class="row">
+    <div class="col-2">
+        <h1>Name</h1>
+    </div>
+    <div class="col-2">
+        <h1>Location</h1>
+    </div>
+</div>
+
+<div  class="row" *ngFor="let item of items$ | async">
+    
+    <div class="col-2">
+        {{item.name}}
+    </div>
+    <div class="col-2" *ngIf=item.location>
+        {{item.location}}
+    </div>
+    <div class="col-2" *ngIf="item.location==null">
+       <p>N/A</p>
+    </div>
+</div>

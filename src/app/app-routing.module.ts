@@ -14,6 +14,7 @@ import { PreventUnsavedChangesGuard } from './_guards/prevent-unsaved-changes.gu
 import { SubDetailComponent } from './subactivities/subactivity-detail/sub-detail/sub-detail.component';
 import { SubEditComponent } from './subactivities/subactivity-edit/sub-edit/sub-edit.component';
 import { ItemCreateComponent } from './items/item-create/item-create.component';
+import { SubCreateComponent } from './subactivities/sub-create/sub-create.component';
 
 export const routes: Routes = [
   {path: '', component: HomeComponent},
@@ -28,6 +29,7 @@ export const routes: Routes = [
       {path: 'item/edit/:id', component: ItemEditComponent, canDeactivate:[PreventUnsavedChangesGuard]},
       {path: 'subactivities', component: SubactivitiesComponent},
       {path: 'subactivities/:id', component: SubDetailComponent},
+      {path: 'create/subactivity', component: SubCreateComponent},
       {path: 'subactivity/edit/:id', component: SubEditComponent, canDeactivate:[PreventUnsavedChangesGuard]},
 
       {path: 'plan', component: PlanComponent},
