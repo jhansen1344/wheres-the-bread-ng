@@ -25,17 +25,17 @@ export class SubCreateComponent implements OnInit {
 
   ngOnInit(): void {
     this.initializeForm();
+    this.items$ = this.itemService.getItems();
   }
 
   initializeForm(){
     this.createForm = this.fb.group({
       name: ['', Validators.required],
-      itemIds: [[], [Validators.required, Validators.minLength(1), Validators.maxLength(16)]],
-    })
-    
-    this.items$ = this.itemService.getItems();
+      itemIds:[]
+    });
+
   }
-  
+
   create(){
 
     this.subService.createSub(this.createForm.value).subscribe(response => {
