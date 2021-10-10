@@ -1,5 +1,5 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { Observable } from 'rxjs';
@@ -17,28 +17,49 @@ import { SubService } from 'src/app/_services/sub.service';
 export class SubCreateComponent implements OnInit {
   
   @Output() cancelCreate = new EventEmitter();
-  createForm: FormGroup;
+  form: FormGroup;
   validationErrors: string[] = [];
-  items$: Observable<Item[]>;
+  itemsData: Item[] = [];
+  //items$: Observable<Item[]>;
 
-  constructor(private subService: SubService, private itemService: ItemsService, private toastr: ToastrService, private fb: FormBuilder, private router: Router) { }
+  get itemsFormArray() {
+    return this.form.controls.items as FormArray;
+  }
+
+  constructor(private subService: SubService, 
+    private itemService: ItemsService, 
+    private toastr: ToastrService, 
+    private formBuilder: FormBuilder, 
+    private router: Router) { }
 
   ngOnInit(): void {
     this.initializeForm();
-    this.items$ = this.itemService.getItems();
+    this.itemService.getItems().subscribe(items => {
+      this.itemsData = items;
+      this.addCheckboxes();
+    });
   }
 
   initializeForm(){
-    this.createForm = this.fb.group({
+    this.form = this.formBuilder.group({
       name: ['', Validators.required],
-      itemIds:[]
+      items: new FormArray([])
     });
 
   }
 
-  create(){
+  private addCheckboxes(){
+    this.itemsData.forEach(() => this.itemsFormArray.push(new FormControl(false)));
+  }
 
-    this.subService.createSub(this.createForm.value).subscribe(response => {
+  create(){
+    const selectedItemIds = this.form.value.items
+      .map((checked, i) => checked ? this.itemsData[i].id : null)
+      .filter(v => v !== null);
+
+      let subCreate = {name: this.form.value.name, itemIds: selectedItemIds};
+
+    this.subService.createSub(subCreate).subscribe(response => {
 
       this.router.navigateByUrl('/subactivities');
     }, error =>{

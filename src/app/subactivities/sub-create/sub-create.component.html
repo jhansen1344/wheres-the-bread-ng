@@ -1,11 +1,11 @@
-<form [formGroup]='createForm' (ngSubmit)="createForm.valid && create()" autocomplete="off">
+<form [formGroup]='form' (ngSubmit)="form.valid && create()" autocomplete="off">
     <h2 class="text-center text-primary"> Create Item</h2>
     <hr>
-    <app-text-input [formControl]='createForm.controls["name"]' [label]='"SubActivity Name"'></app-text-input>
+    <app-text-input [formControl]='form.controls["name"]' [label]='"SubActivity Name"'></app-text-input>
     
-    <label formArrayName="itemIds" *ngFor="let item of items$ | async; let i = index;">
+    <label formArrayName="items" *ngFor="let item of itemsFormArray.controls; let i = index;">
         <input type="checkbox" [formControlName]="i">
-        {{item.name}}
+        {{itemsData[i].name}}
       </label>
     
   
@@ -17,7 +17,7 @@
         </ul>
     </div>
     <div class="form-group text-center">
-        <button [disabled]='!createForm.valid' class="btn btn-success mr-2" type="submit">Create</button>
+        <button [disabled]='!form.valid' class="btn btn-success mr-2" type="submit">Create</button>
         <button class="btn btn-default mr-2"(click)="cancel()">Cancel</button>
 
     </div>
