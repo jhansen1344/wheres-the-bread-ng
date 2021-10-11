@@ -1,5 +1,5 @@
-import { Component, OnInit, ViewChild, HostListener } from '@angular/core';
-import { NgForm, FormGroup, FormBuilder, FormArray, FormControl } from '@angular/forms';
+import { Component, OnInit, ViewChild, HostListener, EventEmitter, Output } from '@angular/core';
+import { NgForm, FormGroup, FormBuilder, FormArray, FormControl, Validators } from '@angular/forms';
 import { SubActivityDetail } from 'src/app/_models/subActivityDetail';
 import { SubService } from 'src/app/_services/sub.service';
 import { ActivatedRoute, RouterLink } from '@angular/router';
@@ -17,10 +17,12 @@ import { map } from 'rxjs/operators';
 })
 export class SubEditComponent implements OnInit {
 
+  @Output() cancelEdit = new EventEmitter();
   @ViewChild('editForm')editForm: NgForm;
   sub: SubActivityDetail;
-  items: any[];
-  availableItems: any[] = [];
+  validationErrors: string[] = [];
+  itemsData: Item[] = [];
+  availableItems: Item[] = [];
   form: FormGroup;
 
   @HostListener('window:beforeunload', ['$event']) unloadNotification($event: any){
@@ -28,25 +30,32 @@ export class SubEditComponent implements OnInit {
       $event.returnValue =  true;
     }
   }
-  constructor(private subService: SubService, private itemService: ItemsService, 
-              private route: ActivatedRoute, private toastr: ToastrService, private formBuilder: FormBuilder) {
-                
-               }
-
-  ngOnInit(): void {
-    this.loadSub();
-    this.form = this.formBuilder.group({
-      itemsToUpdate: new FormArray([])
-    });
-    
-  }
 
   get itemsFormArray(){
-    return this.form.controls.itemsToUpdate as FormArray;
+    return this.form.controls.items as FormArray;
   }
 
+  constructor(private subService: SubService, 
+    private itemService: ItemsService, 
+    private route: ActivatedRoute, 
+    private toastr: ToastrService, 
+    private formBuilder: FormBuilder) { }
+
+  ngOnInit(): void {
+    this.initializeForm();
+    this.loadSub();
+  }
+
+  initializeForm(){
+    this.form = this.formBuilder.group({
+      items: new FormArray([])
+    })
+  }
+
+
+
   private addCheckboxes(){
-    this.availableItems.forEach(item => this.itemsFormArray.push(new FormControl(item.checked)));
+    this.itemsData.forEach(item => this.itemsFormArray.push(new FormControl(false)));
   }
 
   loadSub(){
@@ -54,47 +63,26 @@ export class SubEditComponent implements OnInit {
       this.sub = sub;
       this.itemService
         .getItems()
-        .pipe(
-          map((responseData) => {
-            const allItems = [];
-            responseData.forEach((item) => {
-              let isMatch = false;
-              let checkItem: ItemChecked = {};
-              this.sub.items.forEach((subItem)=> {
-                if (item.name === subItem.name) {
-                  isMatch = true;
-                  checkItem.id = item.id;
-                  checkItem.name = item.name;
-                  checkItem.location = item.location;
-                  checkItem.checked = true;
-                  allItems.push(checkItem);
-                }
-                if (!isMatch) {
-                  checkItem.id = item.id;
-                  checkItem.name = item.name;
-                  checkItem.location = item.location;
-                  checkItem.checked = false;
-                  allItems.push(checkItem);
-                }
-              })
-            });
-            return allItems;
-          })
-        )
         .subscribe((items) => {
-          this.availableItems = items;
-          this.addCheckboxes();
-        });
+          this.itemsData = items;
+          this.itemsData.forEach((item) => {
+            if(this.sub.items.findIndex(subItem => subItem.id === item.id) !== -1){
+               this.itemsFormArray.push(new FormControl(true));
+              }
+              else {
+                this.itemsFormArray.push(new FormControl(false));
+              }
+          });
+        })
     });
-
   }
 
   updateItem(){
-    const selectedItemIds = this.form.value.itemsToUpdate
-    .map((checked, i) => checked ? this.availableItems[i].id : null)
+    const selectedItemIds = this.form.value.items
+    .map((checked, i) => checked ? this.itemsData[i].id : null)
     .filter(v=> v !==null);
 
-    const subToUpdate = {id: this.sub.id,
+    let subToUpdate = {id: this.sub.id,
     name: this.sub.name,
     itemIds: selectedItemIds
   };
@@ -104,6 +92,7 @@ export class SubEditComponent implements OnInit {
    })
   }
 
-  
-
+  cancel(){
+    this.cancelEdit.emit(false);
+}
 }
