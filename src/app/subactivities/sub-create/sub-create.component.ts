@@ -20,7 +20,6 @@ export class SubCreateComponent implements OnInit {
   form: FormGroup;
   validationErrors: string[] = [];
   itemsData: Item[] = [];
-  //items$: Observable<Item[]>;
 
   get itemsFormArray() {
     return this.form.controls.items as FormArray;
