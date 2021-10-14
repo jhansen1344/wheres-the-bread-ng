@@ -38,10 +38,7 @@ export class SubEditComponent implements OnInit {
   availableItems: Item[] = [];
   form: FormGroup;
 
-  @HostListener('window:beforeunload', ['$event']) unloadNotification(
-    
-    $event: any
-  ) {
+  @HostListener('window:beforeunload', ['$event']) unloadNotification($event: any) {
     if (this.editForm.dirty) {
       $event.returnValue = true;
     }
