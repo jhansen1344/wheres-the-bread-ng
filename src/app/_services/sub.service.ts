@@ -41,13 +41,17 @@ export class SubService {
    updateSub(sub){
     return this.http.put(this.baseUrl + 'subactivity/' + sub.id, sub).pipe(
       map(() => {
-        const index = sub.id;
-        // this.subs[index] = sub;
+        const index = this.subs.indexOf(sub);
+        this.subs[index] = sub;
       })
     )
    }
 
    deleteSub(id: number){
-    return this.http.post(this.baseUrl + 'subactivity/' + id, {});
+    return this.http.post(this.baseUrl + 'subactivity/' + id, {}).pipe(
+      map(() => {
+       this.subs.splice(this.subs.findIndex(s => s.id === id), 1);
+      })
+    );
   }
 }

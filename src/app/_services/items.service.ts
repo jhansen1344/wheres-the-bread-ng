@@ -49,6 +49,10 @@ export class ItemsService {
    }
 
    deleteItem(id: number){
-     return this.http.post(this.baseUrl + 'item/' + id, {});
+     return this.http.post(this.baseUrl + 'item/' + id, {}).pipe(
+       map(() => {
+        this.items.splice(this.items.findIndex(i => i.id === id), 1);
+       })
+     );
    }
 }
