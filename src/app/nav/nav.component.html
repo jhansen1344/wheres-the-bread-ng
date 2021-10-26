@@ -5,19 +5,34 @@
     </button>
   
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
-      <ul class="navbar-nav mr-auto" >
+      <div class="navbar-nav mr-auto" >
         <ng-container *ngIf="accountService.currentUser$ | async">
-          <li class="nav-item">
-            <a class="nav-link" routerLink='/plan' routerLinkActive='active'>Plan</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" routerLink='/subactivities' routerLinkActive='active'>Activities</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" routerLink='/items' routerLinkActive='active'> Items</a>
-          </li>
+            <div class="dropdown" dropdown>
+              <a class="dropdown-toggle" dropdownToggle>Plan</a> 
+               <div class="dropdown-menu mt-3" *dropdownMenu>
+                 <a class="dropdown-item" routerLink='/plan' routerLinkActive='active'>My Plans</a>
+                 <div class="dropdown-divider"></div>
+                 <a class="dropdown-item" routerLink='/create/plan' routerLinkActive='active'>Create Plan </a>
+               </div>
+            </div>
+            <div class="dropdown" dropdown>
+              <a class="dropdown-toggle" dropdownToggle>Activities</a> 
+               <div class="dropdown-menu mt-3" *dropdownMenu>
+                 <a class="dropdown-item" routerLink='/subactivities' routerLinkActive='active'>My Activities</a>
+                 <div class="dropdown-divider"></div>
+                 <a class="dropdown-item" routerLink='/create/subactivity' routerLinkActive='active'>Create Activity </a>
+               </div>
+            </div>
+            <div class="dropdown" dropdown>
+              <a class="dropdown-toggle" dropdownToggle>Items</a> 
+               <div class="dropdown-menu mt-3" *dropdownMenu>
+                 <a class="dropdown-item" routerLink='/items' routerLinkActive='active'>My Items</a>
+                 <div class="dropdown-divider"></div>
+                 <a class="dropdown-item" routerLink='/create/item' routerLinkActive='active'>Add Item</a>
+               </div>
+            </div>
         </ng-container>
-      </ul>
+      </div>
 
       <div class="dropdown" *ngIf="accountService.currentUser$ | async" dropdown>
         <a class="dropdown-toggle" dropdownToggle>Welcome user</a> 
